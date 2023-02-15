@@ -12,11 +12,11 @@ if(__name__=='__main__'):
     #shit to change
     ######################
     q_1atm = 1.2
-    xd_1atm = 0.455
+    xd_1atm = 0.454
     refluxRatio_col1 : float = ReactorConstants.refluxRatio_col1
     
-    q_10atm = 1.2
-    xd_10atm = 0.3
+    q_10atm = 0.5
+    xd_10atm = 0.295
     refluxRatio_col2 : float = ReactorConstants.refluxRatio_col2
     
     #1atm shit
