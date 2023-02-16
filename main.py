@@ -11,12 +11,12 @@ if(__name__=='__main__'):
     convergingRun = True
     #shit to change
     ######################
-    q_1atm = 1.2
-    xd_1atm = 0.454
+    q_1atm = 1.2 #1.2
+    xd_1atm = 0.454 #0.454
     refluxRatio_col1 : float = ReactorConstants.refluxRatio_col1
     
-    q_10atm = 0.5
-    xd_10atm = 0.295
+    q_10atm = 0.5 #0.5
+    xd_10atm = 0.295 #0.295
     refluxRatio_col2 : float = ReactorConstants.refluxRatio_col2
     
     #1atm shit
@@ -61,28 +61,34 @@ if(__name__=='__main__'):
     if(convergingRun):
         fig, ax = plt.subplots(1,2)
         
-        xvals_1atm = np.linspace(0,az_1atm)
-        ax[0].plot(xvals_1atm, np.polyval(AzeotropeLine, xvals_1atm)) #y=x line
-        ax[0].plot(xvals_1atm,np.polyval(VLE_1atm, xvals_1atm)) #VLE line
-        ax[0].plot([zf_1atm, x_qo_1atm],[zf_1atm, y_qo_1atm]) #qline
-        ax[0].plot([xd_1atm, x_qo_1atm],[xd_1atm, y_qo_1atm]) #operatingLine
-        ax[0].plot([xb_1atm, x_qo_1atm],[xb_1atm, y_qo_1atm]) #strippingLine
+        xvals_1atm = np.linspace(0,1) #az_1atm
+        ax[0].set_title('1atm Column')
+        ax[0].plot(xvals_1atm, np.polyval(AzeotropeLine, xvals_1atm), label='Azeotrope Line') #y=x line
+        ax[0].plot(xvals_1atm,np.polyval(VLE_1atm, xvals_1atm), label='VLE Line') #VLE line
+        ax[0].plot([zf_1atm, x_qo_1atm],[zf_1atm, y_qo_1atm], label='q Line') #qline
+        ax[0].plot([xd_1atm, x_qo_1atm],[xd_1atm, y_qo_1atm], label='Operating Line') #operatingLine
+        ax[0].plot([xb_1atm, x_qo_1atm],[xb_1atm, y_qo_1atm], label='Stripping Line') #strippingLine
+        ax[0].legend()
         
         i=0
         while(i<len(data_1atm)-1):
             ax[0].plot([data_1atm[i][0], data_1atm[i+1][0]],[data_1atm[i][1],data_1atm[i+1][1]],linestyle='dashed', c='black')
             i+=1
         
-        xvals_10atm = np.linspace(az_10atm, 1)
-        ax[1].plot(xvals_10atm, np.polyval(AzeotropeLine, xvals_10atm)) #y=x line
-        ax[1].plot(xvals_10atm,np.polyval(VLE_10atm, xvals_10atm)) #VLE line
-        ax[1].plot(np.linspace(zf_10atm, x_qo_10atm, 2), np.polyval(qLine_10atm, np.linspace(zf_10atm, x_qo_10atm, 2))) #qline
-        ax[1].plot(np.linspace(xb_10atm, x_qo_10atm,2),np.polyval(sLine_10atm, np.linspace(xb_10atm, x_qo_10atm,2))) #strippingLine
-        ax[1].plot(np.linspace(xd_10atm, x_qo_10atm, 2),np.polyval(oLine_10atm, np.linspace(xd_10atm, x_qo_10atm, 2))) #operatingLine
+        xvals_10atm = np.linspace(0, 1) #az_10atm
+        ax[1].set_title('10atm Column')
+        ax[1].plot(xvals_10atm, np.polyval(AzeotropeLine, xvals_10atm), label='Azeotrope Line') #y=x line
+        ax[1].plot(xvals_10atm,np.polyval(VLE_10atm, xvals_10atm), label='VLE Line') #VLE line
+        ax[1].plot(np.linspace(zf_10atm, x_qo_10atm, 2), np.polyval(qLine_10atm, np.linspace(zf_10atm, x_qo_10atm, 2)),  label='q Line') #qline
+        ax[1].plot(np.linspace(xb_10atm, x_qo_10atm,2),np.polyval(sLine_10atm, np.linspace(xb_10atm, x_qo_10atm,2)), label='Operating Line') #strippingLine
+        ax[1].plot(np.linspace(xd_10atm, x_qo_10atm, 2),np.polyval(oLine_10atm, np.linspace(xd_10atm, x_qo_10atm, 2)), label='Stripping Line') #operatingLine
+        ax[1].legend()
         
         i=0
         while(i<len(data_10atm)-1):
             ax[1].plot([data_10atm[i][0], data_10atm[i+1][0]],[data_10atm[i][1],data_10atm[i+1][1]],linestyle='dashed', c='black')
             i+=1
+            
+    
 
 plt.show()
