@@ -7,5 +7,7 @@ class ReactorConstants:
     refluxRatio_col2 : float = 1.35
     azeotrope : List[int] = [1,0]
     zf : float = 0.25
-    xb_col1 : float = 0.01
+    xb_col1 : float = 0.0100
     xb_col2 : float = 0.9925
+    feedRate : float = 110
+    

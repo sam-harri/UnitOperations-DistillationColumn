@@ -9,9 +9,9 @@ from ReactorConstants import ReactorConstants
 
 if(__name__=='__main__'):
     convergingRun = True
-    #shit to change
+    #change
     ######################
-    q_1atm = 1.2 #1.2
+    q_1atm = 1 #1.2
     xd_1atm = 0.454 #0.454
     refluxRatio_col1 : float = ReactorConstants.refluxRatio_col1
     
@@ -19,30 +19,33 @@ if(__name__=='__main__'):
     xd_10atm = 0.295 #0.295
     refluxRatio_col2 : float = ReactorConstants.refluxRatio_col2
     
-    #1atm shit
+    #1atm 
     ######################
     xb_1atm = ReactorConstants.xb_col1
     VLE_1atm : List[float] = ReactorConstants.VLE_1atm
     AzeotropeLine : List[int] = ReactorConstants.azeotrope
     zf_1atm : float = ReactorConstants.zf
     refluxRatio_col1 : float = ReactorConstants.refluxRatio_col1
-    az_1atm = NumericalMethods.getPolynomialIntercept(VLE_1atm, AzeotropeLine)[0]
     
+    az_1atm = NumericalMethods.getPolynomialIntercept(VLE_1atm, AzeotropeLine)[0]
     qLine_1atm : List[float] = NumericalMethods.qLinePolynomial(q_1atm, zf_1atm)
     oLine_1atm : List[float] = NumericalMethods.operatingLinePolynomial(refluxRatio_col1, xd_1atm)
     sLine_1atm : List[float] = NumericalMethods.strippingLinePolynomial(qLine_1atm, oLine_1atm, xb_1atm)
     x_qo_1atm, y_qo_1atm = NumericalMethods.getPolynomialIntercept(qLine_1atm, oLine_1atm)
     
-    if(y_qo_1atm > np.polyval(VLE_1atm, x_qo_1atm)):
-        print("Limiting case [LowP Col]: Intersection of oLine, qLine, and sLine is above the VLE Line")
-        convergingRun = False
-    else:
-        data_1atm = NumericalMethods.staircaseData1atm(oLine_1atm, sLine_1atm, VLE_1atm, xd_1atm, xb_1atm)
+    # if(y_qo_1atm > np.polyval(VLE_1atm, x_qo_1atm)):
+    #     print("Limiting case [LowP Col]: Intersection of oLine, qLine, and sLine is above the VLE Line")
+    #     convergingRun = False
+    # else:
+    #     steps_1atm, data_1atm = NumericalMethods.staircaseData1atm(oLine_1atm, sLine_1atm, VLE_1atm, xd_1atm, xb_1atm)
+    steps_1atm, data_1atm, lines = NumericalMethods.staircaseData1atm(q_1atm, zf_1atm, refluxRatio_col1, VLE_1atm, xd_1atm, xb_1atm)
     
     
-    #10atm shit
+    #10atm
     ######################
     xb_10atm = ReactorConstants.xb_col2
+    print(xb_10atm)
+    print(xd_10atm)
     VLE_10atm : List[float] = ReactorConstants.VLE_10atm
     zf_10atm : float = 0.5*(data_1atm[-1][0]+data_1atm[-1][1])
     az_10atm = NumericalMethods.getPolynomialIntercept(VLE_10atm, AzeotropeLine)[0]
@@ -56,7 +59,7 @@ if(__name__=='__main__'):
         print("Limiting case [HighP Col]: Intersection of oLine, qLine, and sLine is above the VLE Line")
         convergingRun = False
     else:
-        data_10atm = NumericalMethods.staircaseData10atm(oLine_10atm, sLine_10atm, VLE_10atm, xd_10atm, xb_10atm)
+        steps_10atm, data_10atm = NumericalMethods.staircaseData10atmp(oLine_10atm, sLine_10atm, VLE_10atm, xd_10atm, xb_10atm)
     
     if(convergingRun):
         fig, ax = plt.subplots(1,2)
@@ -79,9 +82,15 @@ if(__name__=='__main__'):
         ax[1].set_title('10atm Column')
         ax[1].plot(xvals_10atm, np.polyval(AzeotropeLine, xvals_10atm), label='Azeotrope Line') #y=x line
         ax[1].plot(xvals_10atm,np.polyval(VLE_10atm, xvals_10atm), label='VLE Line') #VLE line
-        ax[1].plot(np.linspace(zf_10atm, x_qo_10atm, 2), np.polyval(qLine_10atm, np.linspace(zf_10atm, x_qo_10atm, 2)),  label='q Line') #qline
-        ax[1].plot(np.linspace(xb_10atm, x_qo_10atm,2),np.polyval(sLine_10atm, np.linspace(xb_10atm, x_qo_10atm,2)), label='Operating Line') #strippingLine
-        ax[1].plot(np.linspace(xd_10atm, x_qo_10atm, 2),np.polyval(oLine_10atm, np.linspace(xd_10atm, x_qo_10atm, 2)), label='Stripping Line') #operatingLine
+        
+        # ax[1].plot(np.linspace(zf_10atm, x_qo_10atm, 2), np.polyval(qLine_10atm, np.linspace(zf_10atm, x_qo_10atm, 2)),  label='q Line') #qline
+        # ax[1].plot(np.linspace(xb_10atm, x_qo_10atm,2),np.polyval(sLine_10atm, np.linspace(xb_10atm, x_qo_10atm,2)), label='Operating Line') #strippingLine
+        # ax[1].plot(np.linspace(xd_10atm, x_qo_10atm, 2),np.polyval(oLine_10atm, np.linspace(xd_10atm, x_qo_10atm, 2)), label='Stripping Line') #operatingLine
+        
+        ax[1].plot([zf_10atm, x_qo_10atm],[zf_10atm, y_qo_10atm], label='q Line') #qline
+        ax[1].plot([xd_10atm, x_qo_10atm],[xd_10atm, y_qo_10atm], label='Operating Line') #operatingLine
+        ax[1].plot([xb_10atm, x_qo_10atm],[xb_10atm, y_qo_10atm], label='Stripping Line') #strippingLine
+        
         ax[1].legend()
         
         i=0
