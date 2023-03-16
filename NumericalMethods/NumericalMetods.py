@@ -75,6 +75,9 @@ class NumericalMethods:
         else:
             # print("is " + str(data[-1][1]) + " but should be " + str(xd) + " : Done")
             lines = [qLine, oLine, sLine]
+            if(data[-1][0] > xd+0.01):
+                data.pop()
+                data.pop()
             return steps, data, lines
     
     @staticmethod
@@ -137,6 +140,7 @@ class NumericalMethods:
         else:
             # print("is " + str(data[-1][1]) + " but should be " + str(xd) + " : Done")
             lines = [qLine, oLine, sLine]
+            
             return steps, data, lines
     
     def qLinePolynomial(q, zf):
