@@ -152,11 +152,14 @@ def datavsr(r):
 #####################################################################################################
 
 # xdarr = [0.35, 0.37, 0.39, 0.41, 0.43, 0.46]
-# sarr = [9,9,9,10,10,11]
+# s2arr = [10,10,9,9,8,8]
+# s1arr = [9,9,9,10,10,11]
 # fig, ax = plt.subplots(1,1, figsize=(14,8))
-# ax.plot(xdarr, sarr)
+# ax.plot(xdarr, s2arr, label = '10atm Stages')
+# ax.plot(xdarr, s1arr, label = '1atm Stages')
+# ax.legend()
 # ax.set_title("Number of Stages on 10atm Column with Respect to 1atm Column Distillate Composition")
 # ax.set_xlabel("Distillate zTHF [molTHF/mol]")
 # ax.set_ylabel("Stages [#]")
-# plt.savefig('Graphs/StagesComposition.svg', dpi=900)
+# plt.savefig('Graphs/PDFGraphs/StagesComposition.pdf', dpi=1500)
 # plt.show()

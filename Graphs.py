@@ -29,4 +29,5 @@ p14, = boilupTwin2.plot(tatmData['reflux'], tatmData['steps'], label = 'Steps', 
 ax[1].set_ylabel('Duties [kW]')
 ax[1].legend(handles =[p11,p12,p13,p14])
 
-plt.show()
+# plt.savefig("Graphs/PDFGraphs/ParametersReflux.pdf")
+# plt.show()

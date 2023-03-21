@@ -17,3 +17,14 @@ class ReactorConstants:
     Feed_Temperature = 25
     THF_CPLiq = 124.1 #kJ/kmol K
     MEOH_CPLiq = 81.465 #kJ/kmol K
+    
+    
+    ###density
+    MEOH_Density_liq = 792 #kg/m^3
+    MEOH_Density_vap = 1.44 #kg/m^3
+    MEOH_SurfaceTension = 22.07 #mN/m or dyn/cm
+    THF_Density_liq = 888 #kg/m^3
+    THF_Density_vap = 3.23 #kg/m^3
+    THF_SurfaceTension = 26.4 #mN/m or dyn/cm
+    Water_HeatCapacity = 75.35 #kJ/kmol K
+    Water_Temperature = 12 #C

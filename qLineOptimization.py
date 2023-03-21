@@ -30,7 +30,7 @@ class qLineOptimazation:
             intersection = NumericalMethods.getPolynomialIntercept(qLine, oLine)
             if(intersection == None):
                 continue
-            if(NumericalMethods.isValidIntersection_1atm(intersection, VLE)):
+            if(NumericalMethods.isValidIntersection(intersection, VLE)):
                 distance = qLineOptimazation.distance(intersection, VLE)
                 qdata.append(q)
                 distancedata.append(distance)
