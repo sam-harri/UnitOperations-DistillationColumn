@@ -38,12 +38,8 @@ if(__name__ == '__main__'):
     MEOH_CPLiq = ReactorConstants.MEOH_CPLiq
     Water_HeatCapacity = ReactorConstants.Water_HeatCapacity
     Water_Temperature = ReactorConstants.Water_Temperature
-    
-    
     oatm_Reflux = 1.35
-    oatm_q = 1
     tatm_Reflux = 1.32
-    tatm_q = 1
     
     
     FeedArr = [0]
@@ -51,7 +47,7 @@ if(__name__ == '__main__'):
         ##########################################
         ##               Step One               ##
         ##########################################
-        if(len(FeedArr)>12):
+        if(len(FeedArr)>15):
             raise Exception("Non Converging Distilation Column Parameters")
         oatm_zTHF = ((Feed * Feed_zTHF) + (RecycleFeed * Recycle_zTHF)) / (Feed + RecycleFeed) #composition of THF going into first col
         oatm_zMEOH = ((Feed * Feed_zMEOH) + (RecycleFeed * Recycle_zMEOH)) / (Feed + RecycleFeed) #composition of MEOH going into first col
@@ -71,6 +67,7 @@ if(__name__ == '__main__'):
         ##########################################
         ##               Step Two               ##
         ##########################################
+        oatm_q=1
         oatm_steps, oatm_data, oatm_lines = NumericalMethods.staircaseData1atm(oatm_q, oatm_zTHF, oatm_Reflux, oatm_VLE, oatm_xd, oatm_xb, 0)
         oatm_qLine, oatm_oLine, oatm_sLine = oatm_lines
         oatm_xPinch, oatm_yPinch = NumericalMethods.getPolynomialIntercept(oatm_qLine, oatm_oLine)
@@ -81,10 +78,10 @@ if(__name__ == '__main__'):
         
         varM1 = [[1,1],[oatm_dComposition[0], oatm_bComposition[0]]] #variable Matrix
         ansM1 = [[Feed + RecycleFeed],[(Feed + RecycleFeed) * oatm_zTHF]] #answer Matrix
-        
         oatm_dFeed, oatm_bFeed = np.linalg.solve(varM1, ansM1) #feed rate of top & bottom
         oatm_dFeed = oatm_dFeed[0]
         oatm_bFeed = oatm_bFeed[0]
+        
         oatm_dTemperature = np.polyval(oatm_xT, oatm_dComposition[0])
         oatm_Boilup = -oatm_bComposition[0]/oatm_sLine[1]
         oatm_L = oatm_dFeed * oatm_Reflux
@@ -142,7 +139,8 @@ if(__name__ == '__main__'):
             Recycle_zTHF, Recycle_zMEOH = tatm_dComposition
     end_time = time.time()
     
-    ##########################################
+    
+    ##########################################sa
     ##               Step Five              ##
     ##########################################
     fig, ax = plt.subplots(1,2,figsize=(16.5, 13))
@@ -258,4 +256,4 @@ if(__name__ == '__main__'):
     ax3.set_ylabel("Ratio of Final Flow []")
     plt.figtext(0.13, 0.86, "Runtime = " + str((end_time-start_time)*1000)[:5] +"[ms]", fontsize = 'medium')
     
-    plt.show()
+    # plt.show()
