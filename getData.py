@@ -6,10 +6,6 @@ from PIL import Image
 import pandas as pd
 
 def datavsr(r):
-    ##########################################
-    ##               Step Zero              ##
-    ##########################################
-    
     #Recycle Feed Rate + Composition Initial Conditions
     converged = False
     RecycleFeed = 0
@@ -43,17 +39,10 @@ def datavsr(r):
     
     FeedArr = [0]
     while(True):
-        ##########################################
-        ##               Step One               ##
-        ##########################################
         
         oatm_zTHF = ((Feed * Feed_zTHF) + (RecycleFeed * Recycle_zTHF)) / (Feed + RecycleFeed) #composition of THF going into first col
         oatm_zMEOH = ((Feed * Feed_zMEOH) + (RecycleFeed * Recycle_zMEOH)) / (Feed + RecycleFeed) #composition of MEOH going into first col
         
-        
-        ##########################################
-        ##               Step Two               ##
-        ##########################################
         oatm_steps, oatm_data, oatm_lines = NumericalMethods.staircaseData1atm(oatm_q, oatm_zTHF, oatm_Reflux, oatm_VLE, oatm_xd, oatm_xb)
         oatm_qLine, oatm_oLine, oatm_sLine = oatm_lines
         oatm_xPinch, oatm_yPinch = NumericalMethods.getPolynomialIntercept(oatm_qLine, oatm_oLine)
@@ -77,9 +66,6 @@ def datavsr(r):
         oatm_Condenser = oatm_L * oatm_VapHeatCondenser * 0.0002777778 #convertion of kJ/kmol to kJ/second (aka kW)
         oatm_Evaporator = oatm_VBar * oatm_VapHeatEvaporator * 0.0002777778
         
-        ##########################################
-        ##               Step Three             ##
-        ##########################################
         tatm_zTHF, tatm_zMEOH = oatm_dComposition
         
         tatm_steps, tatm_data, tatm_lines = NumericalMethods.staircaseData10atm(tatm_q, tatm_zTHF, tatm_Reflux, tatm_VLE, tatm_xd, tatm_xb)
@@ -104,11 +90,6 @@ def datavsr(r):
         tatm_Condenser = tatm_L * tatm_VapHeatCondenser * 0.0002777778 #convertion of kJ/kmol to kJ/second (aka kW)
         tatm_Evaporator = tatm_VBar * tatm_VapHeatEvaporator * 0.0002777778
         
-        
-        ##########################################
-        ##               Step Four              ##
-        ##########################################
-        
         if(tatm_dFeed - RecycleFeed < 0.5 and tatm_dFeed - RecycleFeed > -0.5):
             converged = True
             RecycleFeed = tatm_dFeed
@@ -123,43 +104,27 @@ def datavsr(r):
     col10data = [r, tatm_Condenser, tatm_Evaporator, tatm_Boilup, tatm_steps]
     return col1data, col10data
 
+col1DF = pd.DataFrame({
+    "reflux" : [],
+    "condenser" : [],
+    "evaporator" : [],
+    "boilup" : [],
+    "steps" : []
+})
 
-# col1DF = pd.DataFrame({
-#     "reflux" : [],
-#     "condenser" : [],
-#     "evaporator" : [],
-#     "boilup" : [],
-#     "steps" : []
-# })
+col10DF = pd.DataFrame({
+    "reflux" : [],
+    "condenser" : [],
+    "evaporator" : [],
+    "boilup" : [],
+    "steps" : []
+})
 
-# col10DF = pd.DataFrame({
-#     "reflux" : [],
-#     "condenser" : [],
-#     "evaporator" : [],
-#     "boilup" : [],
-#     "steps" : []
-# })
+refluxVals = range(1,6)
+for reflux in refluxVals:
+    col1data, col10data = datavsr(reflux)
+    col1DF.loc[len(col1DF.index)] = col1data
+    col10DF.loc[len(col10DF.index)] = col10data
 
-# refluxVals = range(1,6)
-# for reflux in refluxVals:
-#     col1data, col10data = datavsr(reflux)
-#     col1DF.loc[len(col1DF.index)] = col1data
-#     col10DF.loc[len(col10DF.index)] = col10data
-
-# col1DF.to_csv("oatmData.csv", encoding='utf-8', index=False)
-# col10DF.to_csv("tatmdata.csv", encoding='utf-8', index=False)
-
-#####################################################################################################
-
-# xdarr = [0.35, 0.37, 0.39, 0.41, 0.43, 0.46]
-# s2arr = [10,10,9,9,8,8]
-# s1arr = [9,9,9,10,10,11]
-# fig, ax = plt.subplots(1,1, figsize=(14,8))
-# ax.plot(xdarr, s2arr, label = '10atm Stages')
-# ax.plot(xdarr, s1arr, label = '1atm Stages')
-# ax.legend()
-# ax.set_title("Number of Stages on 10atm Column with Respect to 1atm Column Distillate Composition")
-# ax.set_xlabel("Distillate zTHF [molTHF/mol]")
-# ax.set_ylabel("Stages [#]")
-# plt.savefig('Graphs/PDFGraphs/StagesComposition.pdf', dpi=1500)
-# plt.show()
+col1DF.to_csv("Data/oatmData.csv", encoding='utf-8', index=False)
+col10DF.to_csv("Data/tatmdata.csv", encoding='utf-8', index=False)

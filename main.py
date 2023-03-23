@@ -204,7 +204,7 @@ if(__name__ == '__main__'):
     plt.savefig("Graphs/DashboardExample.svg")
     
     
-    img = np.array(Image.open('img/TestDiagram.png'))
+    img = np.array(Image.open('img/ProcessDiagram.png'))
     fig2, ax2 = plt.subplots(1,1,figsize=(16.5, 13))
     fig2.subplots_adjust(right=0.8)
     ax2.axis('off')
@@ -256,4 +256,4 @@ if(__name__ == '__main__'):
     ax3.set_ylabel("Ratio of Final Flow []")
     plt.figtext(0.13, 0.86, "Runtime = " + str((end_time-start_time)*1000)[:5] +"[ms]", fontsize = 'medium')
     
-    # plt.show()
+    plt.show()
