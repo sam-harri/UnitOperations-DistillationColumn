@@ -7,8 +7,8 @@ from sklearn.metrics import mean_squared_error
 from sklearn.model_selection import cross_validate
 from sklearn.model_selection import train_test_split
 
-VLE1atm = pd.read_csv('VLE/1atmVLEData.csv')
-VLE10atm = pd.read_csv('VLE/10atmVLEData.csv')
+VLE1atm = pd.read_csv('data/1atmVLEData.csv')
+VLE10atm = pd.read_csv('data/10atmVLEData.csv')
 
 x_1atm = np.array(VLE1atm['x1'])
 y_1atm = np.array(VLE1atm['Temperature'])

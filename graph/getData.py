@@ -128,8 +128,6 @@ for reflux in refluxVals:
     col1data, col10data = datavsr(reflux)
     col1DF.loc[len(col1DF.index)] = col1data
     col10DF.loc[len(col10DF.index)] = col10data
-    
-print(col10DF)
 
 col1DF.to_csv("Data/oatmData.csv", encoding='utf-8', index=False)
 col10DF.to_csv("Data/tatmdata.csv", encoding='utf-8', index=False)

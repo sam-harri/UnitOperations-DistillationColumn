@@ -1,9 +1,8 @@
 import pandas as pd
 import matplotlib.pyplot as plt
-import numpy as np
 
-oatmData = pd.read_csv("Data/oatmData.csv")
-tatmData = pd.read_csv("Data/tatmData.csv")
+oatmData = pd.read_csv("data/oatmData.csv")
+tatmData = pd.read_csv("data/tatmData.csv")
 
 fig, ax = plt.subplots(1,2,figsize=(14,8))
 
