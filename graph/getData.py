@@ -1,7 +1,10 @@
+import sys, os
+sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
+from util.ReactorConstants import ReactorConstants
+from util.NumericalMetods import NumericalMethods
+
 import numpy as np
 import matplotlib.pyplot as plt
-from NumericalMethods.NumericalMetods import NumericalMethods
-from ReactorConstants import ReactorConstants
 from PIL import Image
 import pandas as pd
 
@@ -43,7 +46,7 @@ def datavsr(r):
         oatm_zTHF = ((Feed * Feed_zTHF) + (RecycleFeed * Recycle_zTHF)) / (Feed + RecycleFeed) #composition of THF going into first col
         oatm_zMEOH = ((Feed * Feed_zMEOH) + (RecycleFeed * Recycle_zMEOH)) / (Feed + RecycleFeed) #composition of MEOH going into first col
         
-        oatm_steps, oatm_data, oatm_lines = NumericalMethods.staircaseData1atm(oatm_q, oatm_zTHF, oatm_Reflux, oatm_VLE, oatm_xd, oatm_xb)
+        oatm_steps, oatm_data, oatm_lines = NumericalMethods.staircaseData1atm(oatm_q, oatm_zTHF, oatm_Reflux, oatm_VLE, oatm_xd, oatm_xb,0)
         oatm_qLine, oatm_oLine, oatm_sLine = oatm_lines
         oatm_xPinch, oatm_yPinch = NumericalMethods.getPolynomialIntercept(oatm_qLine, oatm_oLine)
         
@@ -68,7 +71,7 @@ def datavsr(r):
         
         tatm_zTHF, tatm_zMEOH = oatm_dComposition
         
-        tatm_steps, tatm_data, tatm_lines = NumericalMethods.staircaseData10atm(tatm_q, tatm_zTHF, tatm_Reflux, tatm_VLE, tatm_xd, tatm_xb)
+        tatm_steps, tatm_data, tatm_lines = NumericalMethods.staircaseData10atm(tatm_q, tatm_zTHF, tatm_Reflux, tatm_VLE, tatm_xd, tatm_xb,0)
         tatm_qLine, tatm_oLine, tatm_sLine = tatm_lines
         tatm_xPinch, tatm_yPinch = NumericalMethods.getPolynomialIntercept(tatm_qLine, tatm_oLine)
         
@@ -125,6 +128,8 @@ for reflux in refluxVals:
     col1data, col10data = datavsr(reflux)
     col1DF.loc[len(col1DF.index)] = col1data
     col10DF.loc[len(col10DF.index)] = col10data
+    
+print(col10DF)
 
 col1DF.to_csv("Data/oatmData.csv", encoding='utf-8', index=False)
 col10DF.to_csv("Data/tatmdata.csv", encoding='utf-8', index=False)

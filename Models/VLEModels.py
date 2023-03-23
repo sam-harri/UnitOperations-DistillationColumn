@@ -7,8 +7,8 @@ from sklearn.metrics import mean_squared_error
 from sklearn.model_selection import cross_validate
 from sklearn.model_selection import train_test_split
 
-VLE1atm = pd.read_csv('VLE/1atmVLEData.csv')
-VLE10atm = pd.read_csv('VLE/10atmVLEData.csv')
+VLE1atm = pd.read_csv('Data/1atmVLEData.csv')
+VLE10atm = pd.read_csv('Data/10atmVLEData.csv')
 
 x_1atm = np.array(VLE1atm['x1'])
 y_1atm = np.array(VLE1atm['y1'])
@@ -57,9 +57,6 @@ poly_features_10atm = PolynomialFeatures(degree=6, include_bias=False).fit_trans
 poly_reg_model_10atm = LinearRegression(fit_intercept=False)
 poly_reg_model_10atm.fit(poly_features_10atm, y_10atm)
 y_predicted_10atm = poly_reg_model_10atm.predict(poly_features_10atm)
-
-print(poly_reg_model_10atm.coef_)
-print(poly_reg_model_10atm.intercept_)
 
 
 fig, ax = plt.subplots(2, 2, figsize=(14, 8))

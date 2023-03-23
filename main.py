@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from NumericalMethods.NumericalMetods import NumericalMethods
-from ReactorConstants import ReactorConstants
+from util.NumericalMetods import NumericalMethods
+from util.ReactorConstants import ReactorConstants
 from PIL import Image
 import time
 
@@ -200,9 +200,6 @@ if(__name__ == '__main__'):
     plt.figtext(0.72, 0.13, f"zMEOH = " + str(1-tatm_bComposition[0])[0:6] + "[molMEOH/mol]")
     plt.figtext(0.72, 0.10, "Boilup Ratio = " + str(tatm_Boilup)[0:4])
     plt.figtext(0.72, 0.07, "Evaporator Duties = " + str(tatm_Evaporator)[:str(tatm_Evaporator).index('.')] +"[kW]")
-    
-    plt.savefig("Graphs/DashboardExample.svg")
-    
     
     img = np.array(Image.open('img/ProcessDiagram.png'))
     fig2, ax2 = plt.subplots(1,1,figsize=(16.5, 13))
